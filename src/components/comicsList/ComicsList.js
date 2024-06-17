@@ -1,5 +1,7 @@
 import './comicsList.scss';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import useMarvelService from '../../services/Marvel-service';
 import Spinner from '../spinner/Spinner';
@@ -26,7 +28,6 @@ const ComicsList = () => {
             .then(onComicsLoaded)
     }
 
-
     const onComicsLoaded = (comicsList) => {
         let ended = false
         if (comicsList.length < 8) {
@@ -40,37 +41,55 @@ const ComicsList = () => {
     } 
 
     const buildComicsList = (comics) => {
+
+        const duration = 300
+        const defStyles = {
+            transition: `opacity ${duration}ms ease-in`,
+            opacity: 0
+        }
+        const transitionStyles = {
+            entering: { opacity: 0 },
+            entered: {opacity: 1}
+        }
         return comics.map((item, i) => {
             return (
-                <li className="comics__item" key={item.id}>
-                    <a href="#">
-                        <img src={item.thumbnail} alt={item.title} className="comics__item-img"/>
-                        <div className="comics__item-name">{item.title}</div>
-                        <div className="comics__item-price">{item.price}</div>
-                    </a>
-                </li>
+                <CSSTransition
+                    key={item.id}
+                    timeout={duration}
+                    classNames='comics__item '>
+                        <li className="comics__item">
+                        <Link to={'/comics/'+item.id}>
+                            <img src={item.thumbnail} alt={item.title} className="comics__item-img"/>
+                            <div className="comics__item-name">{item.title}</div>
+                            <div className="comics__item-price">{item.price}</div>
+                        </Link>
+                    </li>
+                </CSSTransition>
             )
         })
     }
+
     const comicsForRender = buildComicsList(Array.from(comics))
     return (
-        <div className="comics__list">
+            <div className="comics__list">
             <ul className="comics__grid">
-                {
-                    loading && !newItemLoading
-                        ? <Spinner />
-                        : error
-                            ? <ErrorMessage />
-                            : comicsForRender
-                }
-            </ul>
-            <button className="button button__main button__long"
-                disabled={newItemLoading}
-                onClick={() => getComics(offset)}
-                style={{'display': comicsEnded ? 'none' : 'block'}}>
-                <div className="inner">load more</div>
-            </button>
-        </div>
+                    <TransitionGroup component={null}>
+                        {
+                            loading && !newItemLoading
+                                ? <Spinner />
+                                : error
+                                    ? <ErrorMessage />
+                                    : comicsForRender
+                        }
+                    </TransitionGroup>
+               </ul>
+                <button className="button button__main button__long"
+                    disabled={newItemLoading}
+                    onClick={() => getComics(offset)}
+                    style={{'display': comicsEnded ? 'none' : 'block'}}>
+                    <div className="inner">load more</div>
+                </button>
+                </div>
     )
 }
 

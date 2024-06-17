@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import AppHeader from "../appHeader/AppHeader";
 import Pages from '../pages/index'
+import ErrorMessage from "../errorMessage/ErrorMessage";
+import NotFound from "../pages/404";
 
 
 const App = () =>  {
@@ -14,6 +16,8 @@ const App = () =>  {
                     <Routes>
                         <Route path="/" element={<Pages.MainPage />}/>
                         <Route path="/comics" element={<Pages.ComicsPage />}/>
+                        <Route path="/comics/:comicId" element={<Pages.SingleComic/>}/>
+                        <Route path="*" element = {<NotFound/>}/>
                     </Routes>
                 </main>
             </div>
