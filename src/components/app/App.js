@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import AppHeader from "../appHeader/AppHeader";
 import Pages from '../pages/index'
-import ErrorMessage from "../errorMessage/ErrorMessage";
 import NotFound from "../pages/404";
 
 

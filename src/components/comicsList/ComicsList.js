@@ -43,14 +43,6 @@ const ComicsList = () => {
     const buildComicsList = (comics) => {
 
         const duration = 300
-        const defStyles = {
-            transition: `opacity ${duration}ms ease-in`,
-            opacity: 0
-        }
-        const transitionStyles = {
-            entering: { opacity: 0 },
-            entered: {opacity: 1}
-        }
         return comics.map((item, i) => {
             return (
                 <CSSTransition

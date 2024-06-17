@@ -57,7 +57,7 @@ const RandomChar = (props) => {
 const View = ({ char }) => {
     console.log(char)
     const { name, description, thumbnail, homepage, wiki, imgClassList } = char
-    const imgStyle = 'randomchar__img' + ' '+ imgClassList
+    const imgStyle = `randomchar__img ${imgClassList}`
     return (
             <div className="randomchar__block">
             <img src={thumbnail} alt={name} className={imgStyle}    />
